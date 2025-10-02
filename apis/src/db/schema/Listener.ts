@@ -3,7 +3,12 @@ import { pgEnum, pgTable as table } from "drizzle-orm/pg-core";
 import * as t from "drizzle-orm/pg-core";
 import { db, types } from "@duneanalytics/sim-idx";
 
-export const functionCall = table("function_call", {
+export const liquidityModifyingFunctionCall = table("liquidity_modifying_function_call", {
+  pool: db.address('pool'),
+  functionName: t.text('function_name'),
+})
+
+export const liquidityUnchangedFunctionCall = table("liquidity_unchanged_function_call", {
   pool: db.address('pool'),
   functionName: t.text('function_name'),
 })
