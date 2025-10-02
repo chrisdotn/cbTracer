@@ -35,8 +35,11 @@ contract UniswapV3PoolListener is
     UniswapV3Pool$OnToken1Function
 {
     /// Emitted events are indexed.
-    /// This event is emitted for every function call to track which function was called and on which pool.
-    event FunctionCall(address pool, string functionName);
+    /// This event is emitted for function calls that modify pool liquidity.
+    event LiquidityModifyingFunctionCall(address pool, string functionName);
+    
+    /// This event is emitted for function calls that do not modify pool liquidity.
+    event LiquidityUnchangedFunctionCall(address pool, string functionName);
 
     // Burn function handler
     function onBurnFunction(
@@ -44,7 +47,7 @@ contract UniswapV3PoolListener is
         UniswapV3Pool$BurnFunctionInputs memory inputs,
         UniswapV3Pool$BurnFunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "burn");
+        emit LiquidityModifyingFunctionCall(ctx.txn.call.callee(), "burn");
     }
 
     // Collect function handler
@@ -53,7 +56,7 @@ contract UniswapV3PoolListener is
         UniswapV3Pool$CollectFunctionInputs memory inputs,
         UniswapV3Pool$CollectFunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "collect");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "collect");
     }
 
     // CollectProtocol function handler
@@ -62,7 +65,7 @@ contract UniswapV3PoolListener is
         UniswapV3Pool$CollectProtocolFunctionInputs memory inputs,
         UniswapV3Pool$CollectProtocolFunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "collectProtocol");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "collectProtocol");
     }
 
     // Factory function handler
@@ -70,7 +73,7 @@ contract UniswapV3PoolListener is
         FunctionContext memory ctx,
         UniswapV3Pool$FactoryFunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "factory");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "factory");
     }
 
     // Fee function handler
@@ -78,7 +81,7 @@ contract UniswapV3PoolListener is
         FunctionContext memory ctx,
         UniswapV3Pool$FeeFunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "fee");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "fee");
     }
 
     // FeeGrowthGlobal0X128 function handler
@@ -86,7 +89,7 @@ contract UniswapV3PoolListener is
         FunctionContext memory ctx,
         UniswapV3Pool$FeeGrowthGlobal0X128FunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "feeGrowthGlobal0X128");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "feeGrowthGlobal0X128");
     }
 
     // FeeGrowthGlobal1X128 function handler
@@ -94,7 +97,7 @@ contract UniswapV3PoolListener is
         FunctionContext memory ctx,
         UniswapV3Pool$FeeGrowthGlobal1X128FunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "feeGrowthGlobal1X128");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "feeGrowthGlobal1X128");
     }
 
     // Flash function handler
@@ -102,7 +105,7 @@ contract UniswapV3PoolListener is
         FunctionContext memory ctx,
         UniswapV3Pool$FlashFunctionInputs memory inputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "flash");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "flash");
     }
 
     // IncreaseObservationCardinalityNext function handler
@@ -110,7 +113,7 @@ contract UniswapV3PoolListener is
         FunctionContext memory ctx,
         UniswapV3Pool$IncreaseObservationCardinalityNextFunctionInputs memory inputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "increaseObservationCardinalityNext");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "increaseObservationCardinalityNext");
     }
 
     // Initialize function handler
@@ -118,7 +121,7 @@ contract UniswapV3PoolListener is
         FunctionContext memory ctx,
         UniswapV3Pool$InitializeFunctionInputs memory inputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "initialize");
+        emit LiquidityModifyingFunctionCall(ctx.txn.call.callee(), "initialize");
     }
 
     // Liquidity function handler
@@ -126,7 +129,7 @@ contract UniswapV3PoolListener is
         FunctionContext memory ctx,
         UniswapV3Pool$LiquidityFunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "liquidity");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "liquidity");
     }
 
     // MaxLiquidityPerTick function handler
@@ -134,7 +137,7 @@ contract UniswapV3PoolListener is
         FunctionContext memory ctx,
         UniswapV3Pool$MaxLiquidityPerTickFunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "maxLiquidityPerTick");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "maxLiquidityPerTick");
     }
 
     // Mint function handler
@@ -143,7 +146,7 @@ contract UniswapV3PoolListener is
         UniswapV3Pool$MintFunctionInputs memory inputs,
         UniswapV3Pool$MintFunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "mint");
+        emit LiquidityModifyingFunctionCall(ctx.txn.call.callee(), "mint");
     }
 
     // Observations function handler
@@ -152,7 +155,7 @@ contract UniswapV3PoolListener is
         UniswapV3Pool$ObservationsFunctionInputs memory inputs,
         UniswapV3Pool$ObservationsFunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "observations");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "observations");
     }
 
     // Observe function handler
@@ -161,7 +164,7 @@ contract UniswapV3PoolListener is
         UniswapV3Pool$ObserveFunctionInputs memory inputs,
         UniswapV3Pool$ObserveFunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "observe");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "observe");
     }
 
     // Positions function handler
@@ -170,7 +173,7 @@ contract UniswapV3PoolListener is
         UniswapV3Pool$PositionsFunctionInputs memory inputs,
         UniswapV3Pool$PositionsFunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "positions");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "positions");
     }
 
     // ProtocolFees function handler
@@ -178,7 +181,7 @@ contract UniswapV3PoolListener is
         FunctionContext memory ctx,
         UniswapV3Pool$ProtocolFeesFunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "protocolFees");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "protocolFees");
     }
 
     // SetFeeProtocol function handler
@@ -186,7 +189,7 @@ contract UniswapV3PoolListener is
         FunctionContext memory ctx,
         UniswapV3Pool$SetFeeProtocolFunctionInputs memory inputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "setFeeProtocol");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "setFeeProtocol");
     }
 
     // Slot0 function handler
@@ -194,7 +197,7 @@ contract UniswapV3PoolListener is
         FunctionContext memory ctx,
         UniswapV3Pool$Slot0FunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "slot0");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "slot0");
     }
 
     // SnapshotCumulativesInside function handler
@@ -203,7 +206,7 @@ contract UniswapV3PoolListener is
         UniswapV3Pool$SnapshotCumulativesInsideFunctionInputs memory inputs,
         UniswapV3Pool$SnapshotCumulativesInsideFunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "snapshotCumulativesInside");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "snapshotCumulativesInside");
     }
 
     // Swap function handler
@@ -212,7 +215,7 @@ contract UniswapV3PoolListener is
         UniswapV3Pool$SwapFunctionInputs memory inputs,
         UniswapV3Pool$SwapFunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "swap");
+        emit LiquidityModifyingFunctionCall(ctx.txn.call.callee(), "swap");
     }
 
     // TickBitmap function handler
@@ -221,7 +224,7 @@ contract UniswapV3PoolListener is
         UniswapV3Pool$TickBitmapFunctionInputs memory inputs,
         UniswapV3Pool$TickBitmapFunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "tickBitmap");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "tickBitmap");
     }
 
     // TickSpacing function handler
@@ -229,7 +232,7 @@ contract UniswapV3PoolListener is
         FunctionContext memory ctx,
         UniswapV3Pool$TickSpacingFunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "tickSpacing");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "tickSpacing");
     }
 
     // Ticks function handler
@@ -238,7 +241,7 @@ contract UniswapV3PoolListener is
         UniswapV3Pool$TicksFunctionInputs memory inputs,
         UniswapV3Pool$TicksFunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "ticks");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "ticks");
     }
 
     // Token0 function handler
@@ -246,7 +249,7 @@ contract UniswapV3PoolListener is
         FunctionContext memory ctx,
         UniswapV3Pool$Token0FunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "token0");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "token0");
     }
 
     // Token1 function handler
@@ -254,6 +257,6 @@ contract UniswapV3PoolListener is
         FunctionContext memory ctx,
         UniswapV3Pool$Token1FunctionOutputs memory outputs
     ) external override {
-        emit FunctionCall(ctx.txn.call.callee(), "token1");
+        emit LiquidityUnchangedFunctionCall(ctx.txn.call.callee(), "token1");
     }
 }
