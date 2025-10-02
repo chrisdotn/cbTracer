@@ -1,4 +1,4 @@
-import { poolCreated } from "./db/schema/Listener"; // Adjust the import path as necessary
+import { functionCall } from "./db/schema/Listener"; // Adjust the import path as necessary
 import { types, db, App, middlewares } from "@duneanalytics/sim-idx"; // Import schema to ensure it's registered
 
 const app = App.create();
@@ -9,7 +9,7 @@ app.get("/*", async (c) => {
     const result = await db
       .client(c)
       .select()
-      .from(poolCreated)
+      .from(functionCall)
       .limit(5);
 
     return Response.json({
